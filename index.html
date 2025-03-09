@@ -19,16 +19,16 @@
         /* Gift Box Container */
         .gift-container {
             position: relative;
-            transform: scale(0.8);
+            width: 200px;
+            height: 200px;
         }
 
         .gift-box {
-            width: 200px;
-            height: 200px;
+            width: 100%;
+            height: 100%;
             position: relative;
             transform-style: preserve-3d;
             animation: float 3s ease-in-out infinite;
-            transition: all 1s;
         }
 
         @keyframes float {
@@ -163,22 +163,25 @@
     </div>
 
     <div class="message" id="message">
-        "May your 25th year be filled with sunshine,<br>
-        Like these golden flowers, bright and divine.<br>
-        Growing with grace, shining so true,<br>
-        Endless blessings await you!"
+        "May your 25th year bloom with endless joy,<br>
+        Like sunflowers chasing the sun's golden rays,<br>
+        Growing stronger each day, reaching new heights,<br>
+        Filled with love, laughter, and beautiful sights!"
     </div>
 
     <script>
+        // Initial Elements
         const giftContainer = document.getElementById('giftContainer');
         const vase = document.getElementById('vase');
         const message = document.getElementById('message');
 
-        // Initial animation
+        // Ensure initial visibility
         giftContainer.style.display = 'block';
+        vase.style.display = 'none';
+        message.style.display = 'none';
 
         giftContainer.addEventListener('click', () => {
-            // Box animation
+            // Animate gift box removal
             giftContainer.style.animation = 'none';
             giftContainer.style.transform = 'scale(0) rotate(1080deg)';
             
@@ -194,18 +197,28 @@
             const mainBranch = document.querySelector('.main-branch');
             const chars = "HAPPY 25 MUMU".split('');
             
-            // Create 25 sunflowers with branches
+            // Clear existing branches
+            mainBranch.innerHTML = '';
+
+            // Create scattering parameters
+            const baseAngle = 180; // Straight up
+            const angleSpread = 60; // ±30 degrees
+            const minDistance = 100;
+            const maxDistance = 200;
+
             for(let i = 0; i < 25; i++) {
                 const subBranch = document.createElement('div');
                 subBranch.className = 'sub-branch';
                 
-                // Position branches
-                const angle = (i * 14.4) - 180;
-                const branchHeight = 120 + Math.random() * 30;
+                // Random scattered positioning
+                const angle = baseAngle + (Math.random() - 0.5) * angleSpread;
+                const branchHeight = minDistance + Math.random() * (maxDistance - minDistance);
                 
                 subBranch.style.cssText = `
                     height: ${branchHeight}px;
-                    transform: rotate(${angle}deg) translateY(-${branchHeight}px);
+                    transform: 
+                        rotate(${angle}deg) 
+                        translateY(-${branchHeight}px);
                 `;
 
                 // Create sunflower
@@ -216,7 +229,8 @@
                 for(let p = 0; p < 12; p++) {
                     const petal = document.createElement('div');
                     petal.className = 'petal';
-                    petal.style.transform = `rotate(${p * 30}deg) translateY(-15px)`;
+                    const rotation = p * 30 + Math.random() * 10 - 5;
+                    petal.style.transform = `rotate(${rotation}deg) translateY(-${15 + Math.random() * 5}px)`;
                     flower.appendChild(petal);
                 }
 
@@ -225,9 +239,9 @@
                 core.className = 'sunflower-core';
                 flower.appendChild(core);
 
-                // Add letters to central flowers
-                if(i >= 6 && i <= 18) {
-                    const char = chars[i-6] || '';
+                // Add letters to center flowers
+                if(i >= 7 && i <= 19) { // Centered in the scattered arrangement
+                    const char = chars[i-7] || '';
                     const letter = document.createElement('div');
                     letter.className = 'sunflower-letter';
                     letter.textContent = char;
