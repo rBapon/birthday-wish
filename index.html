@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Happy 25th Birthday Mumu!</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fff0f5;
+            cursor: pointer;
+            overflow: hidden;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        /* Gift Box Container */
+        .gift-container {
+            position: relative;
+            transform: scale(0.8);
+        }
+
+        .gift-box {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: float 3s ease-in-out infinite;
+            transition: all 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateX(-15deg) rotateY(15deg); }
+            50% { transform: translateY(-20px) rotateX(15deg) rotateY(-15deg); }
+        }
+
+        .box-side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ff69b4;
+            border: 5px solid #ff1493;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .front { transform: translateZ(100px); }
+        .back { transform: translateZ(-100px) rotateY(180deg); }
+        .top { transform: rotateX(-90deg) translateZ(100px); background: #ff1493; }
+        .left { transform: rotateY(-90deg) translateZ(100px); }
+        .right { transform: rotateY(90deg) translateZ(100px); }
+
+        /* Vase Styling */
+        .vase {
+            display: none;
+            position: relative;
+            width: 180px;
+            height: 350px;
+        }
+
+        .vase-body {
+            position: absolute;
+            bottom: 0;
+            width: 120px;
+            height: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #e6b8a2;
+            clip-path: polygon(0 100%, 30% 0, 70% 0, 100% 100%);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Branch System */
+        .main-branch {
+            position: absolute;
+            bottom: 150px;
+            left: 50%;
+            width: 10px;
+            height: 250px;
+            background: #2d5a27;
+            transform: translateX(-50%);
+        }
+
+        .sub-branch {
+            position: absolute;
+            width: 4px;
+            background: #2d5a27;
+            transform-origin: bottom center;
+            bottom: 0;
+        }
+
+        /* Sunflower Design */
+        .sunflower {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            transform-origin: bottom center;
+        }
+
+        .petal {
+            position: absolute;
+            width: 20px;
+            height: 40px;
+            background: #FFD700;
+            border-radius: 40% 60% 30% 70%;
+            transform-origin: bottom center;
+        }
+
+        .sunflower-core {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #4d2c1d 30%, #8B4513 70%);
+            border-radius: 50%;
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        /* Letter Styling */
+        .sunflower-letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            font-size: 1.6em;
+            text-shadow: 1px 1px 3px #000000;
+            z-index: 2;
+        }
+
+        /* Message Styling */
+        .message {
+            display: none;
+            position: absolute;
+            bottom: 50px;
+            color: #8b0000;
+            font-size: 1.8em;
+            text-align: center;
+            text-shadow: 1px 1px 2px white;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="gift-container" id="giftContainer">
+        <div class="gift-box" id="giftBox">
+            <div class="box-side front"></div>
+            <div class="box-side back"></div>
+            <div class="box-side top"></div>
+            <div class="box-side left"></div>
+            <div class="box-side right"></div>
+        </div>
+    </div>
+
+    <div class="vase" id="vase">
+        <div class="vase-body"></div>
+        <div class="main-branch"></div>
+    </div>
+
+    <div class="message" id="message">
+        "May your 25th year be filled with sunshine,<br>
+        Like these golden flowers, bright and divine.<br>
+        Growing with grace, shining so true,<br>
+        Endless blessings await you!"
+    </div>
+
+    <script>
+        const giftContainer = document.getElementById('giftContainer');
+        const vase = document.getElementById('vase');
+        const message = document.getElementById('message');
+
+        // Initial animation
+        giftContainer.style.display = 'block';
+
+        giftContainer.addEventListener('click', () => {
+            // Box animation
+            giftContainer.style.animation = 'none';
+            giftContainer.style.transform = 'scale(0) rotate(1080deg)';
+            
+            setTimeout(() => {
+                giftContainer.remove();
+                vase.style.display = 'block';
+                message.style.display = 'block';
+                createSunflowerBouquet();
+            }, 500);
+        });
+
+        function createSunflowerBouquet() {
+            const mainBranch = document.querySelector('.main-branch');
+            const chars = "HAPPY 25 MUMU".split('');
+            
+            // Create 25 sunflowers with branches
+            for(let i = 0; i < 25; i++) {
+                const subBranch = document.createElement('div');
+                subBranch.className = 'sub-branch';
+                
+                // Position branches
+                const angle = (i * 14.4) - 180;
+                const branchHeight = 120 + Math.random() * 30;
+                
+                subBranch.style.cssText = `
+                    height: ${branchHeight}px;
+                    transform: rotate(${angle}deg) translateY(-${branchHeight}px);
+                `;
+
+                // Create sunflower
+                const flower = document.createElement('div');
+                flower.className = 'sunflower';
+                
+                // Add petals
+                for(let p = 0; p < 12; p++) {
+                    const petal = document.createElement('div');
+                    petal.className = 'petal';
+                    petal.style.transform = `rotate(${p * 30}deg) translateY(-15px)`;
+                    flower.appendChild(petal);
+                }
+
+                // Add core
+                const core = document.createElement('div');
+                core.className = 'sunflower-core';
+                flower.appendChild(core);
+
+                // Add letters to central flowers
+                if(i >= 6 && i <= 18) {
+                    const char = chars[i-6] || '';
+                    const letter = document.createElement('div');
+                    letter.className = 'sunflower-letter';
+                    letter.textContent = char;
+                    flower.appendChild(letter);
+                }
+
+                subBranch.appendChild(flower);
+                mainBranch.appendChild(subBranch);
+            }
+        }
+    </script>
+</body>
+</html>
